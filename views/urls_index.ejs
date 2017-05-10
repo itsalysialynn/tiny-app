@@ -3,18 +3,19 @@
 <head>
   <%- include partials/_header.ejs %>
 </head>
+
 <body>
   <ul>
   <% for(var key in urls) { %>
     <li>
       <%= key + ': ' + urls[key] %>
-    <form action="/urls/<%= key %>/delete" method="POST">
-    <a href="/urls/<%= key %>">Edit</a>
-     <button>Delete</button>
-     </form>
-     </li>
-     <% } %>
-     
-  </ul>
+      <form action="/urls/<%= key %>/delete" method="POST">
+      <a href="/urls/<%= key %>">Edit</a>
+       <button>Delete</button>
+       </form>
+    </li>
+    <% } %>
+   </ul>
 </body>
+
 </html>
