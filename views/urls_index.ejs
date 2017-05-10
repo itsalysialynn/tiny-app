@@ -6,8 +6,14 @@
 <body>
   <ul>
   <% for(var key in urls) { %>
-    <li><%= key + ': ' + urls[key] %></li>
-    <% } %>
+    <li>
+      <%= key + ': ' + urls[key] %>
+    <form action="/urls/<%= key %>/delete" method="POST">
+     <button>Delete</button>
+     </form>
+     </li>
+     <% } %>
+     
   </ul>
 </body>
 </html>
