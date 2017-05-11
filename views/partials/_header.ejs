@@ -1,27 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head> 
-    <title> Tiny App </title>
-</head>
-
-<body>
-    <header>
-        <h1> Tiny App </h1>
-    </header>
-
-    <form action = "/login" method = "post">
-    <input type= "text" name = "username">
-    <input type= "submit" value="submit">
-    </form> 
-
-    <% if(locals.username){ %>
-    <%= locals.username %>
-    <form action = "/logout" method = "post">
-    <input type = "submit" value = "Logout">
+<header>
+    <h1>Tiny App</h1>
+    <% if(userid){ %>
+        <form action="/logout" method="post">
+        <input type="submit" value="Logout">
+        </form>
+    <% } else {%>
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
     <% } %>
-    </form> 
-    
-</body>
 
-</html> 
+</header>

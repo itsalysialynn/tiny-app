@@ -10,7 +10,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(function(req, res, next){
-  res.locals.username = req.cookies.username;
+  res.locals.userid = req.cookies.user_id;
   next();
 });
 
@@ -43,11 +43,16 @@ function generateRandomString() {
 }
 
 app.get("/register", (req, res) => {
-  res.render("urls_register");
+  res.render("register");
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  let userid = req.cookies["user_id"];
+  let templateVars = { urls: urlDatabase, user: users[userid] };
   res.render("urls_index", templateVars);
 });
 
@@ -72,23 +77,38 @@ app.post("/register", (req, res) => {
   }
   for (let user in users) {
     if (users[user].email === req.body.email) {
-      res.status(400).send('Email already exists!');
+      res.status(400).send('Email already exists.');
       return;
     }
   }
   let randomID = generateRandomString();
   users[randomID] = {id: randomID, email: req.body.email, password: req.body.password};
-  res.cookie("username", randomID);
+  res.cookie("user_id", randomID);
   res.redirect("/urls/");
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
-  res.redirect("/urls");
+  if (!req.body.email || !req.body.password) {
+    res.status(400).send('Please enter both email and password');
+    return;
+  }
+  for (let user in users) {
+    if (users[user].email === req.body.email) {
+      if (users[user].password === req.body.password) {
+        res.cookie("user_id", users[user].id);
+        res.redirect("/urls");
+        return;
+      } else {
+        res.status(403).send('Password for this email is not correct');
+        return;
+      }
+    }
+  }
+  res.status(403).send('Email does not exist!');
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/urls");
 });
 
