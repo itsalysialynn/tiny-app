@@ -19,15 +19,15 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-const users = { 
+const users = {
   "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
+    id: "userRandomID",
+    email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
+  "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
     password: "dishwasher-funk"
   }
 };
@@ -48,7 +48,17 @@ app.get("/register", (req, res) => {
 
 app.post("/register", (req, res) => {
   let randomID = generateRandomString();
-  users[randomID] = {id: randomID, email: req.body.email, password: req.body.password}
+  users[randomID] = {id: randomID, email: req.body.email, password: req.body.password};
+  if (!req.body.email || !req.body.password) {
+    res.status(400).send('Email or password not entered!');
+    return;
+  }
+  for (let user in users) {
+    if (users[user].email === req.body.email) {
+      res.status(400).send('Email already exists!');
+      return;
+    }
+  }
   res.cookie("username", randomID);
   res.redirect("/urls/");
 });
