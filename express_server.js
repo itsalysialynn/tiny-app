@@ -42,8 +42,15 @@ function generateRandomString() {
   return text;
 }
 
-app.get("/urls/register", (req, res) => {
+app.get("/register", (req, res) => {
   res.render("urls_register");
+});
+
+app.post("/register", (req, res) => {
+  let randomID = generateRandomString();
+  users[randomID] = {id: randomID, email: req.body.email, password: req.body.password}
+  res.cookie("username", randomID);
+  res.redirect("/urls/");
 });
 
 app.get("/urls", (req, res) => {
