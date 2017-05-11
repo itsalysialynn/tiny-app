@@ -15,8 +15,8 @@
     <input type= "submit" value="submit">
     </form> 
 
-    <% if(username){ %>
-    <%= username %>
+    <% if(locals.username){ %>
+    <%= locals.username %>
     <form action = "/logout" method = "post">
     <input type = "submit" value = "Logout">
     <% } %>
