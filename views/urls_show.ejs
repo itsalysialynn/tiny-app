@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>TinyApp</title>
-    <%- include partials/_header.ejs %>
-  </head>
+<head>
+  <title>TinyApp</title>
+  <%- include partials/_header.ejs %>
+</head>
 
-  <body>
-    <h3>TinyUrl:</h3>
+<body>
+  <h3>TinyUrl:</h3>
 
-    <a href="u/<% shortURL %>">http://tinyapp.com/u/<%= shortURL %></a>
+  <a href="u/<% shortURL %>">http://tinyapp.com/u/<%= shortURL %></a>
 
-    <p>
-      <h3>LongUrl:</h3>
-      
-      <%= longURL %>
+  <p>
+    <h3>LongUrl:</h3>
+    
+    <%= longURL %>
+  </p>
+
+  <form action="/urls/<%= shortURL %>/delete" method="POST">
+    <button>Delete</button>
+  </form>
+
+  <p>
+    <a href= "/urls/">My TinyUrl List</a>
+  </p>
+
+  <form action="/urls/<%= shortURL %>" method="post">
+    <h4>Edit LongUrl?</h4>
+
+    <p> 
+      <label for="long-url-input">Edit:</label>
+      <input id="long-url-input" name="newLongUrl" value="<%= longURL %>">
+      <input type="submit" value="Submit">
     </p>
-
-    <form action="/urls/<%= shortURL %>/delete" method="POST">
-      <button>Delete</button>
-    </form>
-
-    <p>
-      <a href= "/urls/">My TinyUrl List</a>
-    </p>
-
-    <form action="/urls/<%= shortURL %>" method="post">
-      <h4>Edit LongUrl?</h4>
-
-      <p> 
-        <label for="long-url-input">Edit:</label>
-        <input id="long-url-input" name="newLongUrl" value="<%= longURL %>">
-        <input type="submit" value="Submit">
-      </p>
-    </form>
-  </body>
+  </form>
+</body>
 </html>
