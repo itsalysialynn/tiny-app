@@ -57,7 +57,13 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  let user_ID = req.cookies["user_id"];
+  if (users[user_ID]) {
+    res.render("urls_new");
+  } else {
+    res.redirect("/login");
+  }
+  
 });
 
 app.get("/urls/:id", (req, res) => {

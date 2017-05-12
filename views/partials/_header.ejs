@@ -3,10 +3,10 @@
     <% if(userid){ %>
         <form action="/logout" method="post">
         <input type="submit" value="Logout">
+        <a href="urls/new">Create a new tiny URL</a>
         </form>
     <% } else {%>
         <a href="/register">Register</a>
         <a href="/login">Login</a>
     <% } %>
-
 </header>
