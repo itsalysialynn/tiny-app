@@ -1,9 +1,8 @@
 <header>
     <h1>Tiny App</h1>
-
-    <% if(userid){ %>
+    <% if(userid) { %>
         <form action="/logout" method="post">
-            <input type="submit" value="Logout">
+        <input type="submit" value="Logout">
         </form>
     <% } else {%>
         <a href="/register">Register</a>
