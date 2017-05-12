@@ -1,9 +1,9 @@
 <header>
     <h1>Tiny App</h1>
+
     <% if(userid){ %>
         <form action="/logout" method="post">
-        <input type="submit" value="Logout">
-        <a href="urls/new">Create a new tiny URL</a>
+            <input type="submit" value="Logout">
         </form>
     <% } else {%>
         <a href="/register">Register</a>

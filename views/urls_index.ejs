@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include partials/_header.ejs %>
-</head>
+  <head>
+    <title>TinyApp</title>
+    <%- include partials/_header.ejs %>
+  </head>
 
-<body>
-  <ul>
-  <% for(var key in urls) { %>
-    <li>
-      <%= key + ': ' + urls[key] %>
-      <form action="/urls/<%= key %>/delete" method="POST">
-      <a href="/urls/<%= key %>">Edit</a>
-       <button>Delete</button>
-       </form>
-    </li>
-    <% } %>
-   </ul>
-</body>
+  <body>
+    <h3>Welcome Back</h3>
 
+    <ul>
+      <% for(var key in urls) { %>
+      <li>
+        <%= key + ': ' + urls[key] %>
+
+        <form action="/urls/<%= key %>/delete" method="POST">
+          <a href="/urls/<%= key %>">Edit</a>
+          <button>Delete</button>
+        </form>
+      </li>
+      <% } %>
+    </ul>
+    <a href="/new">Create a new TinyUrl</a>
+  </body>
 </html>
