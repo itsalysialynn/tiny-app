@@ -17,14 +17,16 @@
   </p>
 
   <h3>Edit:</h3>
-  <p> 
+ <form action="/urls/<%= shortURL %>" method="post">
+   <p> 
     <label for="long-url-input">New Url:</label>
     <input id="long-url-input" name="newLongUrl" value="<%= longURL %>">
     <input type="submit" value="Submit">
+    </p>
     </form>
-  </p>
+  
   
 
-  <form action="/urls/<%= shortURL %>" method="post">
+ 
 </body>
 </html>
