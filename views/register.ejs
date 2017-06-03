@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+
+<head>
     <title> TinyApp </title>
     <%- include partials/_header.ejs %>
 </head>
 
 <body>
     <h3>Create an Account:</h3>
-    
-    <form action="/register" method="POST">
-    <label for="email">Email:</label>
-    <input type="email" name="email">
 
-    <label for="password">Password:</label>
-    <input type="password" name="password">
-    
-    <input type="submit" value="Register">
+    <form action="/register" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email">
+
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+
+        <input type="submit" value="Register">
     </form>
 </body>
+
 </html>

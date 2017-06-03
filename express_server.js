@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieSession = require('cookie-session');
-const bcrypt = require('bcrypt');
+const cookieSession = require("cookie-session");
+const bcrypt = require("bcrypt");
 
 const app = express();
 
 const urlDatabase = {
-  "b2xVn2": {
+  b2xVn2: {
     longURL: "http://www.lighthouselabs.ca",
     userID: "userRandomID"
   },
@@ -17,17 +17,17 @@ const urlDatabase = {
 };
 
 const users = {
-  "userRandomID": {
+  userRandomID: {
     id: "userRandomID",
     email: "user@example.com",
     password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
   },
-  "user2RandomID": {
+  user2RandomID: {
     id: "user2RandomID",
     email: "user2@example.com",
     password: bcrypt.hashSync("dishwasher-funk", 10)
   },
-  "user3RandomID": {
+  user3RandomID: {
     id: "user3RandomID",
     email: "me@me.com",
     password: bcrypt.hashSync("me", 10)
@@ -37,14 +37,16 @@ const users = {
 const PORT = process.env.PORT || 8080;
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cookieSession({
-  name: 'session',
-  keys: [process.env.SESSION_SECRET || "development"],
-  maxAge: 24 * 60 * 60 * 1000
-}));
-app.use(function(req, res, next){
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [process.env.SESSION_SECRET || "development"],
+    maxAge: 24 * 60 * 60 * 1000
+  })
+);
+app.use(function(req, res, next) {
   res.locals.userid = req.session.user_id;
   res.locals.user = users[req.session.user_id];
   next();
@@ -54,13 +56,13 @@ function generateRandomString() {
   let text = "";
   let charset = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUWXYZ";
 
-  for (let i = 0; i < 6 ; i++) {
+  for (let i = 0; i < 6; i++) {
     text += charset.charAt(Math.floor(Math.random() * charset.length));
   }
   return text;
 }
 
-function userSpecificURLS(user_id){
+function userSpecificURLS(user_id) {
   let result = {};
   for (let shortURL in urlDatabase) {
     let URL = urlDatabase[shortURL];
@@ -83,17 +85,27 @@ app.get("/register", (req, res) => {
 
 app.post("/register", (req, res) => {
   if (!req.body.email || !req.body.password) {
-    res.status(400).send("Email or password not entered.  Please <a href='/register'>try again</a>.");
+    res
+      .status(400)
+      .send(
+        "Email or password not entered.  Please <a href='/register'>try again</a>."
+      );
     return;
   }
   for (let user in users) {
     if (users[user].email === req.body.email) {
-      res.status(400).send("Email already exists.  Please <a href='/login'>login</a>.");
+      res
+        .status(400)
+        .send("Email already exists.  Please <a href='/login'>login</a>.");
       return;
     }
   }
   let randomID = generateRandomString();
-  users[randomID] = {id: randomID, email: req.body.email, password: bcrypt.hashSync(req.body.password, 10)};
+  users[randomID] = {
+    id: randomID,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 10)
+  };
   req.session["user_id"] = randomID;
   res.redirect("/urls/");
 });
@@ -109,7 +121,11 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
   if (!req.body.email || !req.body.password) {
-    res.status(400).send("Email or password left blank.  Please <a href='/login'>try again</a>.");
+    res
+      .status(400)
+      .send(
+        "Email or password left blank.  Please <a href='/login'>try again</a>."
+      );
     return;
   }
   for (let user in users) {
@@ -119,12 +135,16 @@ app.post("/login", (req, res) => {
         res.redirect("/urls");
         return;
       } else {
-        res.status(403).send("Incorrect password.  Please <a href='/login'>try again</a>.");
+        res
+          .status(403)
+          .send("Incorrect password.  Please <a href='/login'>try again</a>.");
         return;
       }
     }
   }
-  res.status(403).send("Email does not exist!  Please <a href='/register'>register</a>.");
+  res
+    .status(403)
+    .send("Email does not exist!  Please <a href='/register'>register</a>.");
 });
 
 app.post("/logout", (req, res) => {
@@ -145,7 +165,10 @@ app.get("/urls", (req, res) => {
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = {longURL: req.body.longURL, userID: req.session["user_id"]};
+  urlDatabase[shortURL] = {
+    longURL: req.body.longURL,
+    userID: req.session["user_id"]
+  };
   res.redirect(`/urls/${shortURL}`);
 });
 
@@ -167,15 +190,26 @@ app.get("/u/:shortURL", (req, res) => {
 app.get("/urls/:id", (req, res) => {
   let userid = req.session["user_id"];
   if (!userid) {
-    res.status(401).send("Please <a href='/login'>login</a> to view this TinyUrl edit page.");
+    res
+      .status(401)
+      .send(
+        "Please <a href='/login'>login</a> to view this TinyUrl edit page."
+      );
   }
 
   let user = urlDatabase[req.params.id].userID;
   if (user === users[req.session.user_id].id) {
-    let templateVars = { shortURL: req.params.id, longURL: urlDatabase[req.params.id].longURL};
+    let templateVars = {
+      shortURL: req.params.id,
+      longURL: urlDatabase[req.params.id].longURL
+    };
     res.render("urls_show", templateVars);
   } else {
-    res.status(401).send("To edit this TinyUrl you must <a href='/login'>login</a> and try again.");
+    res
+      .status(401)
+      .send(
+        "To edit this TinyUrl you must <a href='/login'>login</a> and try again."
+      );
   }
 });
 

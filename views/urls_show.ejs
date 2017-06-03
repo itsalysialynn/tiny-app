@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>TinyApp</title>
   <%- include partials/_header.ejs %>
 </head>
 
 <body>
-  <h3>TinyUrl for <%= longURL %>:</h3>
+  <h3>TinyUrl for
+    <%= longURL %>:</h3>
 
-  <a href="/u/<%= shortURL %>"><%= shortURL %></a>
+  <a href="/u/<%= shortURL %>">
+    <%= shortURL %>
+  </a>
 
   <p>
     <form action="/urls/<%= shortURL %>/delete" method="POST">
-    <button>Delete</button>
+      <button>Delete</button>
     </form>
   </p>
 
   <h3>Edit:</h3>
- <form action="/urls/<%= shortURL %>" method="post">
-   <p> 
-    <label for="long-url-input">New Url:</label>
-    <input id="long-url-input" name="newLongUrl" value="<%= longURL %>">
-    <input type="submit" value="Submit">
+  <form action="/urls/<%= shortURL %>" method="post">
+    <p>
+      <label for="long-url-input">New Url:</label>
+      <input id="long-url-input" name="newLongUrl" value="<%= longURL %>">
+      <input type="submit" value="Submit">
     </p>
-    </form>
-  
-  
+  </form>
 
- 
+
+
+
 </body>
+
 </html>
